@@ -1,0 +1,51 @@
+<script setup>
+import { ref, onMounted, unref } from 'vue'
+const { fetchOrders, loading, error, orders, total } = useHostOrders()
+const { hmDuration } = useDate()
+const totalSum = ref(0);
+const totalDurationSum = ref(0)
+onMounted(async () => {
+  await fetchOrders()
+  unref(orders).forEach(item => {
+    totalSum.value += item.total_amount;
+    totalDurationSum.value += item.duration;
+  });
+})
+</script>
+
+<template>
+  <div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div
+        class="flex flex-col items-center justify-center relative p-2 shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-lg my-5">
+        <div class="flex items-center justify-center flex-col">
+          <h2 class="text-lg m-3 font-medium text-gray-700 sm:text-2xl dark:text-gray-200">{{ totalSum }} {{ $t('common.SAR') }}</h2>
+          <h3 class="block mt-1 text-xl m-3 leading-tight font-medium text-black">{{ $t('common.totalIncome') }}</h3>
+        </div>
+      </div>
+      <div
+        class="flex flex-col items-center justify-center relative p-2 shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-lg my-5">
+        <div class="flex items-center justify-center flex-col">
+          <h2 class="text-lg m-3 font-medium text-gray-700 sm:text-2xl dark:text-gray-200">{{ hmDuration(totalDurationSum) }}</h2>
+          <h3 class="block mt-1 text-xl m-3 leading-tight font-medium text-black">{{ $t('common.totalBookingTime') }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <transition name="fade" mode="out-in">
+      <div class="flex flex-wrap -mx-3 mb-5">
+        <HostProfileOrder v-for="order in orders" :key="order" :order="order" />
+      </div>
+    </transition>
+    <transition name="fade" mode="out-in">
+      <div v-if="loading" class="flex flex-wrap -mx-3 mb-5">
+        <PageSkeletone :many="3" />
+      </div>
+    </transition>
+    <transition name="fade" mode="out-in">
+      <div v-if="!loading && orders.length == 0" class="mx-auto text-center mt-16 text-gray-500">
+        <p>{{ $t('noElements') }}</p>
+      </div>
+    </transition>
+  </div>
+</template>
