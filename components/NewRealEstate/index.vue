@@ -85,6 +85,11 @@ onMounted(async () => {
     await fetchCities();
     await fetchCategories();
 })
+
+
+
+
+
 </script>
 
 <template>
@@ -94,142 +99,275 @@ onMounted(async () => {
                 <h3 class="text-base font-semibold leading-6 text-zaman-700">عرض العقار</h3>
             </div>
             <div class="p-4 sm:px-6">
+
+
+                 <!-- Details -->
                 <div>
-                    <label class="text-sm font-semibold leading-6 text-secondary">
-                        تفاصيل
-                    </label>
-                    <div class="mt-4 grid gap-4 grid-cols-3">
-                        <!-- المدينه -->
-                        <div class="flex flex-col">
-                            <label class="text-sm font-medium text-stone-600">
-                                المدينه
-                            </label>
-                            <Listbox v-model="formData.city_id">
-                                <div class="relative mt-1">
-                                    <ListboxButton
-                                        class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                                        <span class="block truncate">{{ cityName }}</span>
-                                        <span
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                        </span>
-                                    </ListboxButton>
-
-                                    <transition leave-active-class="transition duration-100 ease-in"
-                                        leave-from-class="opacity-100" leave-to-class="opacity-0">
-                                        <ListboxOptions
-                                            class="absolute z-20 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base  ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                            <ListboxOption v-slot="{ active, selected }" v-for="city in cities"
-                                                :key="city.name" :value="city.id" as="template">
-                                                <li :class="[
-                                                    active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                                                    'relative cursor-default select-none py-2 pl-10 pr-4',
-                                                ]">
-                                                    <span :class="[
-                                                        selected ? 'font-medium' : 'font-normal',
-                                                        'block truncate',
-                                                    ]">{{ city.name }}</span>
-                                                    <span v-if="selected"
-                                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                                        <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                                    </span>
-                                                </li>
-                                            </ListboxOption>
-                                        </ListboxOptions>
-                                    </transition>
-                                </div>
-                            </Listbox>
-                            <Field v-model="formData.city_id" class="hidden" name="city_id" />
-                            <!-- <ErrorMessage class="text-[red] block mt-2" name="city_id" />
-                            <p class="text-[red] block mt-2" v-if="serverErrors['city_id']"
-                                v-text="serverErrors['city_id'][0]">
-                            </p> -->
-                        </div>
-                        <!-- نوع العقار  -->
-                        <div class="flex flex-col">
-                            <label class="text-sm font-medium text-stone-600">
-                                نوع العقار
-                            </label>
-                            <Listbox v-model="formData.category_id">
-                                <div class="relative mt-1">
-                                    <ListboxButton
-                                        class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                                        <span class="block truncate">{{ categoryName }}</span>
-                                        <span
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                            <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                        </span>
-                                    </ListboxButton>
-
-                                    <transition leave-active-class="transition duration-100 ease-in"
-                                        leave-from-class="opacity-100" leave-to-class="opacity-0">
-                                        <ListboxOptions
-                                            class="absolute mt-1 z-20 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base  ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                            <ListboxOption v-slot="{ active, selected }" v-for="category in categories"
-                                                :key="category.name" :value="category.id" as="template">
-                                                <li :class="[
-                                                    active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                                                    'relative cursor-default select-none py-2 pl-10 pr-4',
-                                                ]">
-                                                    <span :class="[
-                                                        selected ? 'font-medium' : 'font-normal',
-                                                        'block truncate',
-                                                    ]">{{ category.name }}</span>
-                                                    <span v-if="selected"
-                                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                                        <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                                    </span>
-                                                </li>
-                                            </ListboxOption>
-                                        </ListboxOptions>
-                                    </transition>
-                                </div>
-                            </Listbox>
-                            <Field v-model="formData.category_id" class="hidden" name="category_id" />
-                            <!-- <ErrorMessage class="text-[red] block mt-2" name="category_id" />
-                            <p class="text-[red] block mt-2" v-if="serverErrors['category_id']"
-                                v-text="serverErrors['category_id'][0]">
-                            </p> -->
-                        </div>
-                        <!-- السعر -->
-                        <div class="flex flex-col">
-                            <label class="text-sm font-medium text-stone-600">
-                                السعر
-                            </label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
-                                <Field type="number" name="price" v-model="formData.price"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                        </div>
+                <h2 class="text-sm font-semibold leading-6 text-secondary">تفاصيل</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 m-4">
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">المدينة</label>
+                    <select v-model="City" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" disabled>اختر</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">نوع العقار</label>
+                    <select v-model="type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" disabled>اختر</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">السعر</label>
+                        <input v-model="Price" type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     </div>
                 </div>
-                <div class="mt-5">
-                    <label class="text-sm font-semibold leading-6 text-secondary">
-                        معلومات التواصل 
-                    </label>
-                    <div class="mt-4 grid gap-4 grid-cols-3">
-                        <!-- الايميل -->
-                        <div class="flex flex-col">
-                            <label class="text-sm font-medium text-stone-600">
-                                الايميل
-                            </label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
-                                <Field type="text" name="email" v-model="formData.email"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                        </div>
-                        <!-- الواتساب -->
-                        <div class="flex flex-col">
-                            <label class="text-sm font-medium text-stone-600">
-                                الواتساب
-                            </label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
-                                <Field type="text" name="whatsup" v-model="formData.whatsup"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                        </div>
+                </div>
+
+                    <!-- Contact Information -->
+                <div class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">معلومات التواصل</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 m-4">
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">رقم التواصل</label>
+                    <input v-model="contactNumber" type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">رقم الواتساب</label>
+                    <input v-model="whatsappNumber" type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div >
+                    <label class="block text-sm font-medium text-gray-700">البريد الإلكتروني</label>
+                    <input v-model="email" type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="md:col-span-1">
+                    <label class="block text-sm font-medium text-gray-700">اسم المسوق</label>
+                    <input v-model="marketerName" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">رقم ترخيص الهيئة العامة للعقار</label>
+                    <input v-model="licenseNumber" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     </div>
                 </div>
+                </div>
+
+                 <!-- Property Information -->
+                <div class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">معلومات العقار</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 m-4">
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">عدد غرف النوم</label>
+                    <select v-model="bedrooms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" disabled>اختر</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">عدد دورات المياه</label>
+                    <select v-model="bathrooms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" disabled>اختر</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">عدد الصاله</label>
+                    <select v-model="livingRooms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" disabled>اختر</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">عدد غرف المجلس</label>
+                    <select v-model="majlisRooms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" disabled>اختر</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    </div>
+                    <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">مساحة الارض</label>
+                    <input v-model="landArea" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                </div>
+                </div>
+
+                    <!-- Site and Street Information -->
+                <div class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">معلومات الموقع والشارع</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 m-4">
+                    <div class="md:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700">اسم الشارع</label>
+                    <input v-model="streetName" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">عدد الشوارع</label>
+                    <select v-model="streetCount" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" disabled>اختر</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">عرض الشارع</label>
+                    <input v-model="streetWidth" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">واجهة الشارع</label>
+                    <input v-model="streetFacade" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                </div>
+                </div>
+
+                    <!-- Additional Information -->
+                <div class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">معلومات اضافية</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 m-4">
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">مياه</label>
+                    <div class="mt-1 flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                        <input v-model="water" type="radio" value="yes" class="form-radio">
+                        <span class="mr-2 ml-8">نعم</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                        <input v-model="water" type="radio" value="no" class="form-radio">
+                        <span class="mr-2">لا</span>
+                        </label>
+                    </div>
+                    </div>
+                    <div>
+                    <label class="block text-sm font-medium text-gray-700">كهرباء</label>
+                    <div class="mt-1 flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                        <input v-model="electricity" type="radio" value="yes" class="form-radio">
+                        <span class="mr-2 ml-8">نعم</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                        <input v-model="electricity" type="radio" value="no" class="form-radio">
+                        <span class="mr-2">لا</span>
+                        </label>
+                    </div>
+                    </div>
+                    <div class="md:col-span-1">
+                    <label class="block text-sm font-medium text-gray-700">الطول</label>
+                    <input v-model="length" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="md:col-span-1">
+                    <label class="block text-sm font-medium text-gray-700">العمق</label>
+                    <input v-model="depth" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                </div>
+                </div>
+
+                    <!-- Features and Amenities -->
+                <div class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">المميزات والمرافق</h2>
+                <div class="m-4">
+                    <label class="block text-sm font-medium text-gray-700">المميزات والمرافق</label>
+                    <input v-model="amenities" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                </div>
+
+                    <!-- Property Description -->
+                <div class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">الوصف</h2>
+                <div class="m-4">
+                    <label class="block text-sm font-medium text-gray-700">وصف العقار</label>
+                    <textarea v-model="description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                </div>
+                </div>
+
+                    <!-- Images Section -->
+                <section class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">الصور</h2>
+                <div class="grid grid-cols-5 gap-4 mb-2 m-4">
+                    <div v-for="n in 5" :key="n" class="flex justify-center items-center bg-gray-100 h-40 rounded-lg">
+                    <img src="" alt="Image Placeholder" class="w-8 h-8">
+                    </div>
+                </div>
+                <p class="text-sm text-right text-orange-600 cursor-pointer">اضافة صور أخرى</p>
+                </section>
+
+                    <!-- Video Section -->
+                <section class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">الفيديو</h2>
+                <div class="bg-gray-100 h-24 flex items-center justify-between px-4 rounded-lg m-4">
+                    <span></span> <!-- Empty span to take space -->
+                    <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center">
+                    <span>ارفاق فيديو</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 01-2.828 0L2.343 10.172M15.172 7H8.343l-4 4m4-4l6.586 6.586c.78.78 2.048.78 2.828 0l6.586-6.586"></path></svg>
+                    </button>
+                </div>
+                </section>
+
+                    <!-- Location Section -->
+                <section class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">الموقع</h2>
+                <div class="bg-gray-100 h-24 flex items-center justify-between px-4 rounded-lg m-4">
+                    <span></span> <!-- Empty span to take space -->
+                    <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center">
+                    <span>اضافة الموقع</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11V7a4 4 0 10-8 0v4a8 8 0 1016 0V7a4 4 0 00-8 0z"></path></svg>
+                    </button>
+                </div>
+                </section>
+
+
+                    <!-- Plan Section -->
+                <section class="mt-8">
+                <h2 class="text-sm font-semibold leading-6 text-secondary">المخطط</h2>
+                <div class="bg-gray-100 h-24 flex items-center justify-between px-4 rounded-lg m-4">
+                    <span></span> <!-- Empty span to take space -->
+                    <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center">
+                    <span>اضافة المخطط</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7-7-7M5 10l7-7 7 7"></path></svg>
+                    </button>
+                </div>
+                </section>
+
+
+            
+
+
+
+
+
+
+
+  <!-- <div class="max-w-4xl mx-auto p-6">
+  </div> -->
+  <!-- <div class="max-w-4xl mx-auto p-6">
+  </div> -->
+
+  <!-- <div class="p-4">
+  </div> -->
+
+
+
+
+
+
             </div>
         </div>
     </div>
