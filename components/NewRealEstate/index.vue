@@ -218,6 +218,16 @@ onMounted(async () => {
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                             </div>
                         </div>
+                        <!-- الواتساب -->
+                        <div class="flex flex-col">
+                            <label class="text-sm font-medium text-stone-600">
+                                الواتساب
+                            </label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <Field type="text" name="whatsup" v-model="formData.whatsup"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
