@@ -43,7 +43,7 @@ const book = async () => {
     if (errors.value) {
         return
     }
-    router.push(`/space/payment/${unref(booking).token}`)
+    router.push(`/state/payment/${unref(booking).token}`)
 }
 const offDays = ref([])
 

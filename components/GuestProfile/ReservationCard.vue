@@ -10,7 +10,7 @@ const props = defineProps({
 })
 
 const complete = () => {
-    router.push(`/space/payment/${props.reservation.token}`)
+    router.push(`/state/payment/${props.reservation.token}`)
 }
 
 </script>
@@ -20,7 +20,7 @@ const complete = () => {
         class="relative p-5 shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-2xl mx-auto my-10">
         <div class="flex flex-col sm:flex-row">
             <div class="h-auto overflow-hidden w-full sm:w-1/2">
-                <NuxtLink :to="`/space/${reservation.space_data.id}`">
+                <NuxtLink :to="`/state/${reservation.space_data.id}`">
                     <div class="h-48 sm:h-auto overflow-hidden relative">
                         <img :src="reservation.main_image" alt="">
                     </div>

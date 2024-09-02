@@ -7,21 +7,21 @@ export const useLogin = () => {
   const loading = ref(false);
   const error = ref(null);
   const token = useCookie("token");
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await $api.post("/login", {
-        username,
+      const response = await $api.post("/auth/login", {
+        email,
         password,
       });
 
       const authStore = useAuthStore();
-      token.value = response.data.token;
-      if(response?.data?.user){
-        authStore.setToken(response?.data?.token);
-        authStore.setUser(response?.data?.user);
+      token.value = response.data.data.token;
+      if(response?.data?.data?.user){
+        authStore.setToken(response?.data?.data?.token);
+        authStore.setUser(response?.data?.data?.user);
       }
       router.push(authStore.redirectRoute || "/");
     } catch (err) {

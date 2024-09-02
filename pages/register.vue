@@ -121,6 +121,7 @@ const handleRegister = async (data) => {
                                     <span class="text-sm font-semibold leading-6">Google</span>
                                 </a>
                             </div>
+
                             <p class="text-center text-sm leading-6 text-gray-500 py-4">
                                 {{ $t('authentication.doHaveAccount') }}{{ ' ' }}
                                 <NuxtLink to="/login" class="font-semibold text-zaman hover:text-zaman-700">{{

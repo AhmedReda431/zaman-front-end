@@ -30,7 +30,7 @@ const openDelete = ref(false)
 const updateSpace = (id) => {
   openUpdate.value = false
   spaceStore.setUpdate(true)
-  router.push({ path: `/spaces/create/${props.space.token}`})
+  router.push({ path: `/states/create/${props.space.token}`})
 }
 const deleteSpace = async (id) => {
   await remove(id)
@@ -55,7 +55,7 @@ const fav = (event) => {
 };
 </script>
 <template>
-  <NuxtLink :to="space.status.value == 'published' ? { path: `/space/${space.id}` } : ''" class="h-full relative">
+  <NuxtLink :to="space.status.value == 'published' ? { path: `/state/${space.id}` } : ''" class="h-full relative">
     
     <div>
       <ModalComponent :header="$t('updateHeader')" :open="openUpdate" :data="space.id" :message="$t('updateSpace')"

@@ -8,17 +8,17 @@ const { values } = useForm();
 const validateForm = useValidateForm();
 const isValid = useIsFormValid();
 const emit = defineEmits(['valid', 'notValid']);
-const { fetchRegions, regions } = useRegions();
-const { space } = useSpaceStore();
+const { fetchCities, cities } = useCities();
+const { realState } = useRealStateStore();
 defineProps({
   serverErrors: {
     required: false
   }
 })
-const region_id = ref('');
-const city = ref(space?.city || null);
-const address = ref(space?.address || null);
-const selectedLocation = ref(space ? { lat: parseFloat(space.lat), lng: parseFloat(space.lng) } : null);
+const city_id = ref('');
+const city = ref(realState?.city || null);
+const price = ref(realState?.price || null);
+const selectedLocation = ref(realState ? { lat: parseFloat(realState.lat), lng: parseFloat(realState.lng) } : null);
 const location = (data) => {
   selectedLocation.value = data;
 };
@@ -28,9 +28,8 @@ const validate = async () => {
   if (isValid.value) {
     let formData = {
       step: 1,
-      region_id: region_id.value,
-      city: city.value,
-      address: address.value,
+      city_id: city_id.value,
+      price: price.value,
       map: selectedLocation.value
     };
     emit('valid', formData);
@@ -47,9 +46,8 @@ watch(isValid, (value) => {
   if (value) {
     let formData = {
       step: 1,
-      region_id: region_id.value,
-      city: city.value,
-      address: address.value,
+      city_id: city_id.value,
+      price: price.value,
       map: selectedLocation.value
     }
     emit('valid', formData)
@@ -58,19 +56,13 @@ watch(isValid, (value) => {
 
 const validateAddress = (value) => {
   if (!value) {
-    return t('validation.address.required');
+    return t('validation.price.required');
   }
   return true;
 };
 const validateCity = (value) => {
   if (!value) {
     return t('validation.city.required');
-  }
-  return true;
-};
-const validateRegion = (value) => {
-  if (!value) {
-    return t('validation.region.required');
   }
   return true;
 };
@@ -81,17 +73,18 @@ const validateMap = (value) => {
   return true;
 };
 
-const regionName = computed(() => {
-  if (region_id.value != '') {
-    const obj = regions.value.find(cat => cat.id == region_id.value);
-    return locale.value == "ar" ? unref(obj).name_ar : unref(obj).name;
+const cityName = computed(() => {
+  if (city_id.value != '') {
+    const obj = cities.value.find(cat => cat.id == city_id.value);
+    // return locale.value == "ar" ? unref(obj).name_ar : unref(obj).name;
+     return unref(obj).name;
   }
-  return t('common.selectRegion');
+  return t('common.selectCity');
 });
 onMounted(async () => {
-  await fetchRegions();
-  if (space?.region_id) {
-    region_id.value = space.region_id;
+  await fetchCities();
+  if (realState?.city_id) {
+    city_id.value = realState.city_id;
   }
 })
 
@@ -104,19 +97,19 @@ onMounted(async () => {
     </div>
     <div class="p-4 sm:px-6">
       <div>
-        <label for="address" class="text-sm font-semibold leading-6 text-gray-600">
+        <label for="price" class="text-sm font-semibold leading-6 text-gray-600">
           {{ $t('common.selectLocation') }}
         </label>
         <div class="mt-4 grid gap-4 grid-cols-3">
           <div class="flex flex-col">
             <label class="text-sm font-medium text-stone-600">
-              {{ $t('common.selectRegion') }}
+              {{ $t('common.selectCity') }}
             </label>
-            <Listbox v-model="region_id">
+            <Listbox v-model="city_id">
               <div class="relative mt-1">
                 <ListboxButton
                   class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                  <span class="block truncate">{{ regionName }}</span>
+                  <span class="block truncate">{{ cityName }}</span>
                   <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
                   </span>
@@ -126,8 +119,8 @@ onMounted(async () => {
                   leave-to-class="opacity-0">
                   <ListboxOptions
                     class="absolute mt-1 z-20 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base  ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                    <ListboxOption v-slot="{ active, selected }" v-for="region in regions" :key="region.name"
-                      :value="region.id" as="template">
+                    <ListboxOption v-slot="{ active, selected }" v-for="city in cities" :key="city.name"
+                      :value="city.id" as="template">
                       <li :class="[
                         active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
                         'relative cursor-default select-none py-2 pl-10 pr-4',
@@ -135,7 +128,7 @@ onMounted(async () => {
                         <span :class="[
                           selected ? 'font-medium' : 'font-normal',
                           'block truncate',
-                        ]">{{ locale == 'ar' ? region.name_ar : region.name }}</span>
+                        ]">{{ city.name }}</span>
                         <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                           <CheckIcon class="h-5 w-5" aria-hidden="true" />
                         </span>
@@ -145,9 +138,9 @@ onMounted(async () => {
                 </transition>
               </div>
             </Listbox>
-            <Field v-model="region_id" class="hidden" name="region_id" :rules="validateRegion" />
-            <ErrorMessage class="text-[red] block mt-2" name="region_id" />
-            <p class="text-[red] block mt-2" v-if="serverErrors['region_id']" v-text="serverErrors['region_id'][0]">
+            <Field v-model="city_id" class="hidden" name="city_id" :rules="validateCity" />
+            <ErrorMessage class="text-[red] block mt-2" name="city_id" />
+            <p class="text-[red] block mt-2" v-if="serverErrors['city_id']" v-text="serverErrors['city_id'][0]">
             </p>
           </div>
           <div>
@@ -162,12 +155,12 @@ onMounted(async () => {
           </div>
           <div>
             <label class="text-sm font-medium text-stone-600">
-              {{ $t('common.address') }}
+              {{ $t('common.price') }}
             </label>
-            <Field v-model="address" type="text" name="address" id="address" :rules="validateAddress"
+            <Field v-model="price" type="text" name="price" id="price" :rules="validateAddress"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-            <ErrorMessage class="text-[red] block mt-1" name="address" />
-            <p class="text-[red] block mt-2" v-if="serverErrors['address']" v-text="serverErrors['address'][0]">
+            <ErrorMessage class="text-[red] block mt-1" name="price" />
+            <p class="text-[red] block mt-2" v-if="serverErrors['price']" v-text="serverErrors['price'][0]">
             </p>
           </div>
         </div>

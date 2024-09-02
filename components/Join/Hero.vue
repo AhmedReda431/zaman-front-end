@@ -7,7 +7,7 @@
       <div class="text-center text-lg text-gray-700 pt-3 pb-12">
         {{$t('withUs.win')}}
       </div>
-      <NuxtLink to="/spaces/create"
+      <NuxtLink to="/states/create"
         class="rounded-md bg-zaman px-12 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-zaman-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zaman-800">
         {{$t('common.joinAsHost')}}
       </NuxtLink>

@@ -46,7 +46,7 @@ const pay = async () => {
     return;
   }
   if (payment_method.value == 'cash') {
-    router.replace('/space/done');
+    router.replace('/state/done');
     return;
   }
 };

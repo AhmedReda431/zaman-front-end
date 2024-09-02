@@ -1,5 +1,3 @@
-
-
 <script setup>
 import defaultAvatar from '@/assets/img/green.png';
 import { ref, onMounted, computed } from 'vue';
@@ -39,6 +37,7 @@ router.beforeEach(() => {
 
 const isAuthenticated = computed(() => useAuthStore().isAuthenticated);
 const user = computed(() => useAuthStore().user);
+const route = useRoute();
 
 
 </script>
@@ -56,48 +55,45 @@ const user = computed(() => useAuthStore().user);
           </div>
 
           <div class="flex items-center gap-x-12">
-            <!-- Profile dropdown -->
-
             <div class="hidden lg:flex lg:gap-x-12 lg:items-center">
-    
-              <NuxtLink :to="{ path: '/' }"
-                class="text-sm font-semibold leading-6 border-b-2 border-b-zaman text-zaman-900 hover:text-gray-500">
+
+              <NuxtLink :to="{ path: '/' }" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path == '/' }"
+                class="text-sm font-semibold leading-6  hover:text-gray-500">
                 <div class="flex items-center gap-x-1">
                   {{ $t('mainPage') }}
                 </div>
               </NuxtLink>
 
-              <NuxtLink 
+              <NuxtLink :to="{ path: '/real-states' }" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path.includes('/real-states') }"
                 class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500">
                 <div class="flex items-center gap-x-1">
                   {{ $t('realEstateOffers') }}
                 </div>
               </NuxtLink>
 
-              <NuxtLink 
-                class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500">
+              <NuxtLink class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path.includes('/about-us') }">
                 <div class="flex items-center gap-x-1">
                   {{ $t('aboutUs') }}
                 </div>
               </NuxtLink>
 
               <NuxtLink :to="{ path: '/contact-us' }"
-              class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500">
-              <div class="flex items-center gap-x-1">
-                {{ $t('contact-us') }}
-              </div>
-            </NuxtLink>
+                class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500">
+                <div class="flex items-center gap-x-1">
+                  {{ $t('contact-us') }}
+                </div>
+              </NuxtLink>
 
-            
+
               <NuxtLink :to="{ path: '/login' }" v-if="!isAuthenticated"
-              class="rounded-md text-secondary px-6 py-3 text-sm font-semibold bg-transparent border-2 border-secondary shadow-sm hover:bg-secondary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zaman-700">
-              <span class="sr-only">Login</span>
+                class="rounded-md text-secondary px-6 py-3 text-sm font-semibold bg-transparent border-2 border-secondary shadow-sm hover:bg-secondary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zaman-700">
+                <span class="sr-only">Login</span>
                 <div class="flex items-center gap-x-1">
                   <UserIcon class="h-5 w-5" aria-hidden="true" />
                   {{ $t('authentication.login') }}
                 </div>
               </NuxtLink>
-              <NuxtLink :to="{ path: '/spaces/create/new' }"
+              <NuxtLink :to="{ path: '/real-states/create/new' }"
                 class="rounded-md bg-zaman px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-zaman-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zaman-700">
                 <div class="flex items-center gap-x-1">
                   <HomeIcon class="h-5 w-5 flex-none text-white" aria-hidden="true" />
@@ -105,48 +101,48 @@ const user = computed(() => useAuthStore().user);
                 </div>
               </NuxtLink>
             </div>
-              <LangSwitch />
+            <LangSwitch />
             <div class="flex items-center justify-center">
-                <Menu as="div" class="relative ml-3" v-if="isAuthenticated">
-                  <MenuButton class="relative flex items-center rounded-ful text-sm">
-                    <span class="absolute -inset-1.5" />
-                    <span class="sr-only">Open user menu</span>
-                    <img class="inline-block h-10 w-10 rounded-full" style="object-fit: cover;"
-                      :src="user?.avatar || defaultAvatar" alt="User avatar" />
-                    <div class="text-gray-700 mx-3 font-semibold hidden lg:block">
-                      {{ user?.name }}
-                    </div>
+              <Menu as="div" class="relative ml-3" v-if="isAuthenticated">
+                <MenuButton class="relative flex items-center rounded-ful text-sm">
+                  <span class="absolute -inset-1.5" />
+                  <span class="sr-only">Open user menu</span>
+                  <img class="inline-block h-10 w-10 rounded-full" style="object-fit: cover;"
+                    :src="user?.avatar || defaultAvatar" alt="User avatar" />
+                  <div class="text-gray-700 mx-3 font-semibold hidden lg:block">
+                    {{ user?.name }}
+                  </div>
 
-                  </MenuButton>
-                  <transition enter-active-class="transition ease-out duration-100"
-                    enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
-                    leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100"
-                    leave-to-class="transform opacity-0 scale-95">
-                    <MenuItems
-                      class="absolute z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <MenuItem v-slot="{ active }">
+                </MenuButton>
+                <transition enter-active-class="transition ease-out duration-100"
+                  enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
+                  leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100"
+                  leave-to-class="transform opacity-0 scale-95">
+                  <MenuItems
+                    class="absolute z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <MenuItem v-slot="{ active }">
 
-                      <NuxtLink v-if="user?.role.value == 'host'" :to="{ name: 'host-profile', params: { page: 'info' } }"
-                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
-                        {{ $t('profile.profile') }}
-                      </NuxtLink>
+                    <NuxtLink v-if="user?.role.value == 'host'" :to="{ name: 'host-profile', params: { page: 'info' } }"
+                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+                      {{ $t('profile.profile') }}
+                    </NuxtLink>
 
-                      <NuxtLink v-else :to="{ name: 'profile', params: { page: 'info' } }"
-                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
-                        {{ $t('profile.profile') }}
-                      </NuxtLink>
+                    <NuxtLink v-else :to="{ name: 'profile', params: { page: 'info' } }"
+                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+                      {{ $t('profile.profile') }}
+                    </NuxtLink>
 
-                      </MenuItem>
+                    </MenuItem>
 
-                      <MenuItem v-slot="{ active }">
-                      <button @click="logout"
-                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 w-full text-right']">{{
-                          $t('signOut')
-                        }}</button>
-                      </MenuItem>
-                    </MenuItems>
-                  </transition>
-                </Menu>
+                    <MenuItem v-slot="{ active }">
+                    <button @click="logout"
+                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 w-full text-right']">{{
+                        $t('signOut')
+                      }}</button>
+                    </MenuItem>
+                  </MenuItems>
+                </transition>
+              </Menu>
             </div>
 
           </div>
@@ -181,7 +177,7 @@ const user = computed(() => useAuthStore().user);
               <div class="mt-6 flow-root">
                 <div class="-my-6 divide-y divide-gray-500/10">
                   <div class="py-6">
-                    <NuxtLink :to="{ path: '/spaces' }"
+                    <NuxtLink :to="{ path: '/real-states' }"
                       class="text-xl font-semibold leading-6 text-gray-900 hover:text-gray-500">
                       <div class="flex items-center gap-x-1">
                         {{ $t('spaces.spaces') }}
@@ -201,7 +197,7 @@ const user = computed(() => useAuthStore().user);
                 </div>
                 <div class="-my-6 divide-y divide-gray-500/10">
                   <div class="py-6">
-                    <NuxtLink :to="{ path: '/spaces/create' }"
+                    <NuxtLink :to="{ path: '/states/create' }"
                       class="text-xl font-semibold leading-6 text-gray-900 hover:text-gray-500">
                       <span class="sr-only">add space</span>
                       <div class="flex items-center gap-x-1">

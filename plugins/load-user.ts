@@ -12,8 +12,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
       try {
         // Fetch the user data from the /me endpoint
-        const response = await $api.get("/me");
-        authStore.setUser(response.data.user);
+        const response = await $api.post("/profile-info");
+        authStore.setUser(response.data.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
         // Handle error, e.g., clear auth data if token is invalid

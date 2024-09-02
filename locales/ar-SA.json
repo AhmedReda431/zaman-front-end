@@ -6,6 +6,7 @@
   "aboutUs": "من نحن",
   "searchByMap": "بحث بالخريطة",
   "authentication": {
+    "verifyOtp": "يرجى تأكيد الرقم المرسل الى الايميل",
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
     "welcomeAgain": "مرحبا بك في زمان",
@@ -91,6 +92,7 @@
     "defaultUpdateError": "حدث خطأ أثناء تحديث المعلومات. الرجاء المحاولة مرة أخرى."
   },
   "common": {
+    "selectCity": "اختر المدينه",
     "name": "الاسم",
     "subject": "العنوان",
     "description": "الوصف",

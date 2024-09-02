@@ -14,7 +14,7 @@ defineProps({
         <div class="relative flex-[1_auto] flex flex-col break-words min-w-0 bg-clip-border rounded-[.95rem] bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 my-3">
             <div class="relative flex flex-col min-w-0 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30">
                 <!-- card header -->
-                <NuxtLink :to="`/space/${order.space_data.id}`" class="text-xl text-gray-600 my-5 p-3 border-b-2 border-sky-500 font-medium">
+                <NuxtLink :to="`/state/${order.space_data.id}`" class="text-xl text-gray-600 my-5 p-3 border-b-2 border-sky-500 font-medium">
                     <div class="relative inline-block shrink-0 rounded-2xl me-3">
                         <img :src="order.main_image" class="w-[50px] h-[50px] inline-block shrink-0 rounded-2xl" alt="">
                         <span class="mx-3 font-semibold transition-colors duration-200 ease-in-out text-lg/normal text-secondary-inverse hover:text-primary">{{$t('common.space')}} {{ order.space_data.title }}</span>

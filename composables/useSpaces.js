@@ -27,7 +27,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/spaces?${query}`);
+      const response = await $api.get(`/states?${query}`);
       spaces.value = response.data.data;
       total.value = response.data.meta.total;
       success.value = true;
@@ -44,7 +44,7 @@ export const useSpaces = () => {
     spaces.value = [];
 
     try {
-      const response = await $api.get(`/user/spaces`);
+      const response = await $api.get(`/user/states`);
       spaces.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -60,7 +60,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/spaces/${id}`);
+      const response = await $api.get(`/states/${id}`);
       space.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -76,7 +76,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/spaces/create/${token}`);
+      const response = await $api.get(`/states/create/${token}`);
       space.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -91,7 +91,7 @@ export const useSpaces = () => {
     resetStates();
     loading.value = true;
     try {
-      const response = await $api.get("/space-features/parking");
+      const response = await $api.get("/state-features/parking");
       parkings.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -106,7 +106,7 @@ export const useSpaces = () => {
     resetStates();
     loading.value = true;
     try {
-      const response = await $api.get("/space-features/amenities");
+      const response = await $api.get("/state-features/amenities");
       amenities.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -131,7 +131,7 @@ export const useSpaces = () => {
       };
     }
     try {
-      const response = await $api.post("/spaces", obj);
+      const response = await $api.post("/states", obj);
       spaceStore.setToken(response.data.data.token);
       spaceStore.setSpace(response.data.data);
       space.value = response.data.data
@@ -150,7 +150,7 @@ export const useSpaces = () => {
 
     try {
       const response = await $api.put(
-        `/spaces${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
+        `/states${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
         data
       );
       spaceStore.setToken(response.data.data.token);
@@ -172,7 +172,7 @@ export const useSpaces = () => {
     data.step = 3;
     try {
       const response = await $api.post(
-        `/spaces${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
+        `/states${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
         data,
         {
           onUploadProgress: (progressEvent) => {
@@ -201,7 +201,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.delete(`/spaces/${id}`);
+      const response = await $api.delete(`/states/${id}`);
       spaceStore.clearSpace();
       success.value = true;
     } catch (err) {
