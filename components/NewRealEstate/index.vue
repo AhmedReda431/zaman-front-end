@@ -28,7 +28,7 @@ const formData = ref({
     category_id: null,
     images: [],
     videos: [],
-    plans: null,
+    plans: [],
     description: '',
     whatsup: '',
     license_number: null,
