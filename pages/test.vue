@@ -1,5 +1,5 @@
 <script>
-import { ClockIcon, Share2Icon, HeartIcon, MailIcon, PhoneIcon, WhatsappIcon } from 'lucide-vue-next'
+import { ClockIcon, Share2Icon, HeartIcon, MailIcon, PhoneIcon} from 'lucide-vue-next'
 
 export default {
   components: {
@@ -8,7 +8,6 @@ export default {
     HeartIcon,
     MailIcon,
     PhoneIcon,
-    WhatsappIcon
   },
   data() {
     return {
@@ -27,7 +26,7 @@ export default {
       price: '1,000,000',
       agentName: 'احمد حسن',
       licenseNumber: '7100017784',
-      contactIcons: [WhatsappIcon, Share2Icon, HeartIcon, MailIcon],
+      contactIcons: [Share2Icon, HeartIcon, MailIcon],
       actions: [
         'طلب تمويل عقاري',
         'حجز معاينة العقار',
