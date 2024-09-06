@@ -53,6 +53,9 @@ importers:
       pinia:
         specifier: ^2.1.7
         version: 2.1.7(vue@3.4.15)
+      swiper:
+        specifier: ^11.1.12
+        version: 11.1.12
       tailwind-variants:
         specifier: ^0.1.20
         version: 0.1.20(tailwindcss@3.4.1)
@@ -3756,6 +3759,10 @@ packages:
 
   swiper@10.3.1:
     resolution: {integrity: sha512-24Wk3YUdZHxjc9faID97GTu6xnLNia+adMt6qMTZG/HgdSUt4fS0REsGUXJOgpTED0Amh/j+gRGQxsLayJUlBQ==}
+    engines: {node: '>= 4.7.0'}
+
+  swiper@11.1.12:
+    resolution: {integrity: sha512-PUkCToYAZMB4kP7z+YfPnkMHOMwMO71g8vUhz2o5INGIgIMb6Sb0XiP6cEJFsiFTd7FRDn5XCbg+KVKPDZqXLw==}
     engines: {node: '>= 4.7.0'}
 
   system-architecture@0.1.0:
@@ -8398,6 +8405,8 @@ snapshots:
       picocolors: 1.0.0
 
   swiper@10.3.1: {}
+
+  swiper@11.1.12: {}
 
   system-architecture@0.1.0: {}
 

@@ -44,6 +44,8 @@
         <div class="space-y-2">
           <label class="block text-sm font-medium text-gray-700">المدينة</label>
           <div class="relative">
+
+            
             <select
               class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
               @change="onCityChange($event.target.value)"
