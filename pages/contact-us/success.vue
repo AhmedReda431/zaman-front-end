@@ -21,7 +21,7 @@ definePageMeta({
         <div class="py-2 text-xl text-[#07074D]">
             {{$t('contact-message')}}
         </div>
-        <NuxtLink to="/states"
+        <NuxtLink to="/real-states"
             class=" bg-zaman hover:bg-zaman-500 focus:bg-zaman-400 rounded-md py-3 px-8 my-5 w-48 text-center text-base font-semibold text-white">
             {{$t('steps.continue')}}</NuxtLink>
 

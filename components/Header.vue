@@ -64,7 +64,7 @@ const route = useRoute();
                 </div>
               </NuxtLink>
 
-              <NuxtLink :to="{ path: '/real-states' }" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path.includes('/real-states') }"
+              <NuxtLink :to="{ path: '/filter' }" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path.includes('/real-states') }"
                 class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500">
                 <div class="flex items-center gap-x-1">
                   {{ $t('realEstateOffers') }}
@@ -93,7 +93,7 @@ const route = useRoute();
                   {{ $t('authentication.login') }}
                 </div>
               </NuxtLink>
-              <NuxtLink :to="{ path: '/real-states/create/new' }"
+              <NuxtLink :to="{ path: '/real-states/create' }"
                 class="rounded-md bg-zaman px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-zaman-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zaman-700">
                 <div class="flex items-center gap-x-1">
                   <HomeIcon class="h-5 w-5 flex-none text-white" aria-hidden="true" />
@@ -197,7 +197,7 @@ const route = useRoute();
                 </div>
                 <div class="-my-6 divide-y divide-gray-500/10">
                   <div class="py-6">
-                    <NuxtLink :to="{ path: '/states/create' }"
+                    <NuxtLink :to="{ path: '/real-states/create' }"
                       class="text-xl font-semibold leading-6 text-gray-900 hover:text-gray-500">
                       <span class="sr-only">add space</span>
                       <div class="flex items-center gap-x-1">

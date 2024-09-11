@@ -72,7 +72,7 @@ async function submit() {
     if (stepper.isCurrent('step-1') && !isSpace) {
       await newSpace(formData)
       if (success.value) {
-        router.push({ path: `/states/create/${unref(spaceForRoute).token}` })
+        router.push({ path: `/real-states/create/${unref(spaceForRoute).token}` })
         return
       }
     } else {
@@ -97,7 +97,7 @@ async function submitLastStep() {
     if (error.value) {
       return
     }
-    router.push({ path: "/states/done" })
+    router.push({ path: "/real-states/done" })
   }
 }
 

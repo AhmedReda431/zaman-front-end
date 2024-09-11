@@ -19,7 +19,7 @@ const updateSpace = (id) => {
     spaceStore.setToken(props.space.token);
     spaceStore.setSpace(props.space);
     spaceStore.setStep(1);
-    router.push({ path: '/states/create' })
+    router.push({ path: '/real-states/create' })
 }
 const deleteSpace = async (id) => {
     await remove(id)

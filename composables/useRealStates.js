@@ -25,7 +25,7 @@ export const useRealStates = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/real-estates?${query}`);
+      const response = await $api.get(`/home-real-states?${query}`);
       realStates.value = response.data.data;
       total.value = response.data.meta.total;
       success.value = true;
@@ -42,7 +42,7 @@ export const useRealStates = () => {
     realStates.value = [];
 
     try {
-      const response = await $api.get(`/user/real-estates`);
+      const response = await $api.get(`/user/real-states`);
       realStates.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -58,7 +58,7 @@ export const useRealStates = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/real-estates/${id}`);
+      const response = await $api.get(`/real-states/${id}`);
       realState.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -74,7 +74,7 @@ export const useRealStates = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/real-estates/${token}`);
+      const response = await $api.get(`/real-states/${token}`);
       realState.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -99,7 +99,7 @@ export const useRealStates = () => {
       };
     }
     try {
-      const response = await $api.post("/real-estates", obj);
+      const response = await $api.post("/real-states", obj);
       realStateStore.setRealState(response.data.data);
       realState.value = response.data.data
       success.value = true;
@@ -117,7 +117,7 @@ export const useRealStates = () => {
 
     try {
       const response = await $api.put(
-        `/real-estates${realStateStore.isRealState ? `/${realStateStore.token}` : ""}`,
+        `/real-states${realStateStore.isRealState ? `/${realStateStore.token}` : ""}`,
         data
       );
       realStateStore.setToken(response.data.data.token);
@@ -139,7 +139,7 @@ export const useRealStates = () => {
   //   data.step = 3;
   //   try {
   //     const response = await $api.post(
-  //       `/states${realStateStore.isRealState ? `/${realStateStore.token}` : ""}`,
+  //       `/real-states${realStateStore.isRealState ? `/${realStateStore.token}` : ""}`,
   //       data,
   //       {
   //         onUploadProgress: (progressEvent) => {
@@ -168,7 +168,7 @@ export const useRealStates = () => {
     loading.value = true;
 
     try {
-      const response = await $api.delete(`/real-estates/${id}`);
+      const response = await $api.delete(`/real-states/${id}`);
       realStateStore.clearRealState();
       success.value = true;
     } catch (err) {

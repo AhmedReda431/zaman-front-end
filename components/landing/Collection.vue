@@ -45,7 +45,7 @@ onMounted(async () => {
       <div v-else class="mt-6 space-y-8 ">
         <div v-for="(chunk, chunkIndex) in regionChunks" :key="chunkIndex"
           :class="{ 'five-item-chunk': chunk.length === 5 }" class="lg:grid lg:grid-cols-3 lg:gap-6">
-          <div @click="router.push({ path: '/states', query: { region_id: region.id } })" v-for="(region, index) in chunk"
+          <div @click="router.push({ path: '/real-states', query: { region_id: region.id } })" v-for="(region, index) in chunk"
             :key="index" class="cursor-pointer img-grid group relative w-full">
             <div
               class=" relative h-full w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1   ">

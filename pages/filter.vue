@@ -46,27 +46,47 @@
           <div class="relative">
 
             
-            <select
-              class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-              @change="onCityChange($event.target.value)"
-            >
-              <option>اختر المدينة</option>
-              <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-            </select>
-            <ChevronDown class="absolute right-2 top-2 h-5 w-5 text-gray-400" />
-          </div>
-        </div>
+            <div class="flex flex-col">
+                  <label for="event" class="text-sm font-medium text-stone-600">
+                    {{ $t('selectCity') }}
+                  </label>
+                  <Listbox v-model="city_id">
+                    <div class="relative mt-1">
+                      <ListboxButton
+                        class="relative w-full cursor-default rounded-lg bg-white py-3 rtl:pr-3 pl-3 rtl:pl-10 pr-10 text-left rtl:text-right shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-zaman-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <span class="block truncate">{{ cityName }}</span>
+                        <span
+                          class="pointer-events-none absolute inset-y-0 rtl:left-0 ltr:right-0 flex items-center rtl:pl-2 pr-2">
+                          <ChevronDownIcon class="h-6 w-6 text-gray-400" aria-hidden="true" />
+                        </span>
+                      </ListboxButton>
 
-        <!-- Neighborhood Selection -->
-        <div class="space-y-2">
-          <label class="block text-sm font-medium text-gray-700">الحي</label>
-          <div class="relative">
-            <select
-              class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            >
-              <option>اختر الحي</option>
-              <option v-for="neighborhood in neighborhoods" :key="neighborhood" :value="neighborhood">{{ neighborhood }}</option>
-            </select>
+                      <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
+                        leave-to-class="opacity-0">
+                        <ListboxOptions
+                          class="absolute mt-1 z-20 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base  ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                          <ListboxOption v-slot="{ active, selected }" v-for="city in cities" :key="city.name"
+                            :value="city.id" as="template">
+                            <li :class="[
+                              active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                              'relative cursor-default select-none py-2 pl-10 pr-4',
+                            ]">
+                              <span :class="[
+                                selected ? 'font-medium' : 'font-normal',
+                                'block truncate',
+                              ]">{{ locale == 'ar' ? city.name_ar : city.name
+                                }}</span>
+                              <span v-if="selected"
+                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                              </span>
+                            </li>
+                          </ListboxOption>
+                        </ListboxOptions>
+                      </transition>
+                    </div>
+                  </Listbox>
+                </div>
             <ChevronDown class="absolute right-2 top-2 h-5 w-5 text-gray-400" />
           </div>
         </div>
@@ -84,17 +104,51 @@
         </div>
 
         <!-- Property Type Selection -->
-        <div class="space-y-2">
-          <label class="block text-sm font-medium text-gray-700">صفة العقار</label>
-          <div class="relative">
-            <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-              <option>اختر صفة العقار</option>
-              <option v-for="type in propertyTypes" :key="type" :value="type">{{ type }}</option>
-            </select>
-            <ChevronDown class="absolute right-2 top-2 h-5 w-5 text-gray-400" />
-          </div>
-        </div>
+        <div class="flex flex-col">
+                  <label for="type" class="text-sm font-medium text-stone-600"> {{ $t('chooseCategory') }} </label>
+                  <Listbox v-model="type">
+                    <div class="relative mt-1">
+                      <ListboxButton
+                        class="relative w-full cursor-default rounded-lg bg-white py-3 rtl:pr-3 pl-3 rtl:pl-10 pr-10 text-left rtl:text-right shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-zaman-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <span class="block truncate">{{ typeLabel }}</span>
+                        <span
+                          class="pointer-events-none absolute inset-y-0 rtl:left-0 ltr:right-0 flex items-center rtl:pl-2 pr-2">
+                          <ChevronDownIcon class="h-6 w-6 text-gray-400" aria-hidden="true" />
+                        </span>
+                      </ListboxButton>
 
+                      <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
+                        leave-to-class="opacity-0">
+                        <ListboxOptions
+                          class="absolute mt-1 z-20 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base  ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                          <ListboxOption v-slot="{ active, selected }" v-for="cat in categories" :key="cat.label"
+                            :value="cat.value" as="template">
+                            <li :class="[
+                              active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                              'relative cursor-default select-none py-2 pl-10 pr-4',
+                            ]">
+                              <span :class="[
+                                selected ? 'font-medium' : 'font-normal',
+                                'block truncate',
+                              ]">{{ cat.label }}</span>
+                              <span v-if="selected"
+                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                              </span>
+                            </li>
+                          </ListboxOption>
+                        </ListboxOptions>
+                      </transition>
+                    </div>
+                  </Listbox>
+                </div>
+
+
+                <button @click="search"
+                  class="mt-6 rounded-lg  bg-zaman hover:bg-zaman-700 focus:bg-zaman-800 w-full py-3 font-semibold text-white outline-none hover:opacity-80 focus:ring flex items-center justify-center space-x-2">
+                  <MagnifyingGlassIcon class="h-4 w-4 text-white rtl:ml-2 mr-2" aria-hidden="true" />
+                  <span>{{ $t('common.search') }}</span>
+                </button>
         <!-- Price Range -->
         <div class="space-y-2 col-span-full">
           <label class="block text-sm font-medium text-gray-700">السعر</label>

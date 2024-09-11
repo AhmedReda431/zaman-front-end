@@ -41,7 +41,7 @@ const router = useRouter()
       </div>
 
       <div class="grid lg:grid-cols-4 gap-2 sm:grid-cols-2 mx-auto">
-        <NuxtLink :to="{ path: '/states', query: { type: 'event_hall' } }">
+        <NuxtLink :to="{ path: '/real-states', query: { type: 'event_hall' } }">
           <div class="flex justify-center gap-2 items-center  h-20 text-zaman bg-zaman/10 shadow 
           hover:bg-zaman hover:text-zaman-50 border border-zaman/20 rounded cursor-pointer">
             <Icon size="28" name="game-icons:greek-temple" />
@@ -50,7 +50,7 @@ const router = useRouter()
             </h2>
           </div>
         </NuxtLink>
-        <NuxtLink :to="{ path: '/states', query: { type: 'camps' } }">
+        <NuxtLink :to="{ path: '/real-states', query: { type: 'camps' } }">
           <div
             class="flex justify-center gap-2 items-center  h-20 text-zaman bg-zaman/10 shadow hover:bg-zaman hover:text-zaman-50 border border-zaman/20 rounded cursor-pointer">
             <Icon size="28" name="game-icons:greek-temple" />
@@ -59,7 +59,7 @@ const router = useRouter()
             </h2>
           </div>
         </NuxtLink>
-        <NuxtLink :to="{ path: '/states', query: { type: 'events' } }">
+        <NuxtLink :to="{ path: '/real-states', query: { type: 'events' } }">
           <div
             class="flex justify-center gap-2 items-center  h-20 text-zaman bg-zaman/10 shadow hover:bg-zaman hover:text-zaman-50 border border-zaman/20 rounded cursor-pointer">
             <Icon size="28" name="game-icons:greek-temple" />
@@ -68,7 +68,7 @@ const router = useRouter()
             </h2>
           </div>
         </NuxtLink>
-        <NuxtLink :to="{ path: '/states', query: { type: 'resting' } }">
+        <NuxtLink :to="{ path: '/real-states', query: { type: 'resting' } }">
           <div
             class="flex justify-center gap-2 items-center  h-20 text-zaman bg-zaman/10 shadow hover:bg-zaman hover:text-zaman-50 border border-zaman/20 rounded cursor-pointer">
             <Icon size="28" name="game-icons:greek-temple" />

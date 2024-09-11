@@ -30,7 +30,7 @@ const regionName = computed(() => {
 });
 const search = () => {
   router.push({
-    path: '/states', query: {
+    path: '/real-states', query: {
       region_id: region_id.value,
       type: type.value,
     }

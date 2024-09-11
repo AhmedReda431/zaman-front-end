@@ -11,7 +11,7 @@ export const useCategories = () => {
     error.value = null;
 
     try {
-      const response = await $api.get("/states");
+      const response = await $api.get("/real-states");
       categories.value = response.data.data;
     } catch (err) {
       error.value =

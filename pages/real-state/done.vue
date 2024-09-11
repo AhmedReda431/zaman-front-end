@@ -18,7 +18,7 @@ definePageMeta({
         </div>
         <div class="w-221 h-66 m-5 text-3xl font-bold text-[#07074D]">{{$t('bookingSent.title')}}</div>
         <div class="py-2 text-xl text-[#07074D]">{{$t('bookingSent.message')}}</div>
-        <NuxtLink to="/states"
+        <NuxtLink to="/real-states"
             class=" bg-zaman hover:bg-zaman-500 focus:bg-zaman-400 rounded-md py-3 px-8 my-5 w-48 text-center text-base font-semibold text-white">
             {{$t('bookingSent.continue')}}
         </NuxtLink>

@@ -69,7 +69,7 @@
             <div>
               <ul role="list" class="mt-6 space-y-4">
                 <li>
-                  <NuxtLink :to="{ path: '/states' }" class="text-sm leading-6 text-gray-300 hover:text-white">
+                  <NuxtLink :to="{ path: '/real-states' }" class="text-sm leading-6 text-gray-300 hover:text-white">
                     {{ $t('spaces.spaces') }}
                   </NuxtLink>
                 </li>
@@ -79,7 +79,7 @@
                   </NuxtLink>
                 </li>
                 <li>
-                  <NuxtLink :to="{ path: '/states/create' }" class="text-sm leading-6 text-gray-300 hover:text-white">
+                  <NuxtLink :to="{ path: '/real-states/create' }" class="text-sm leading-6 text-gray-300 hover:text-white">
                     {{ $t('addWorkspace') }}
                   </NuxtLink>
                 </li>

@@ -27,7 +27,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/states?${query}`);
+      const response = await $api.get(`/real-states?${query}`);
       spaces.value = response.data.data;
       total.value = response.data.meta.total;
       success.value = true;
@@ -44,7 +44,7 @@ export const useSpaces = () => {
     spaces.value = [];
 
     try {
-      const response = await $api.get(`/user/states`);
+      const response = await $api.get(`/user/real-states`);
       spaces.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -60,7 +60,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/states/${id}`);
+      const response = await $api.get(`/real-states/${id}`);
       space.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -76,7 +76,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/states/create/${token}`);
+      const response = await $api.get(`/real-states/create/${token}`);
       space.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -131,7 +131,7 @@ export const useSpaces = () => {
       };
     }
     try {
-      const response = await $api.post("/states", obj);
+      const response = await $api.post("/real-states", obj);
       spaceStore.setToken(response.data.data.token);
       spaceStore.setSpace(response.data.data);
       space.value = response.data.data
@@ -150,7 +150,7 @@ export const useSpaces = () => {
 
     try {
       const response = await $api.put(
-        `/states${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
+        `/real-states${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
         data
       );
       spaceStore.setToken(response.data.data.token);
@@ -172,7 +172,7 @@ export const useSpaces = () => {
     data.step = 3;
     try {
       const response = await $api.post(
-        `/states${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
+        `/real-states${spaceStore.isSpace ? `/${spaceStore.token}` : ""}`,
         data,
         {
           onUploadProgress: (progressEvent) => {
@@ -201,7 +201,7 @@ export const useSpaces = () => {
     loading.value = true;
 
     try {
-      const response = await $api.delete(`/states/${id}`);
+      const response = await $api.delete(`/real-states/${id}`);
       spaceStore.clearSpace();
       success.value = true;
     } catch (err) {

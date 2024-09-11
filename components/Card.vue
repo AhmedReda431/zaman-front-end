@@ -30,7 +30,7 @@ const openDelete = ref(false)
 const updateSpace = (id) => {
   openUpdate.value = false
   spaceStore.setUpdate(true)
-  router.push({ path: `/states/create/${props.space.token}`})
+  router.push({ path: `/real-states/update/${id}`})
 }
 const deleteSpace = async (id) => {
   await remove(id)
