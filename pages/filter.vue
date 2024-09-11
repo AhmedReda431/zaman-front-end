@@ -103,66 +103,62 @@
           </div>
         </div>
 
-        <!-- Property Type Selection -->
-        <div class="flex flex-col">
-                  <label for="type" class="text-sm font-medium text-stone-600"> {{ $t('chooseCategory') }} </label>
-                  <Listbox v-model="type">
-                    <div class="relative mt-1">
-                      <ListboxButton
-                        class="relative w-full cursor-default rounded-lg bg-white py-3 rtl:pr-3 pl-3 rtl:pl-10 pr-10 text-left rtl:text-right shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-zaman-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                        <span class="block truncate">{{ typeLabel }}</span>
-                        <span
-                          class="pointer-events-none absolute inset-y-0 rtl:left-0 ltr:right-0 flex items-center rtl:pl-2 pr-2">
-                          <ChevronDownIcon class="h-6 w-6 text-gray-400" aria-hidden="true" />
-                        </span>
-                      </ListboxButton>
-
-                      <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
-                        leave-to-class="opacity-0">
-                        <ListboxOptions
-                          class="absolute mt-1 z-20 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base  ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                          <ListboxOption v-slot="{ active, selected }" v-for="cat in categories" :key="cat.label"
-                            :value="cat.value" as="template">
-                            <li :class="[
-                              active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                              'relative cursor-default select-none py-2 pl-10 pr-4',
-                            ]">
-                              <span :class="[
-                                selected ? 'font-medium' : 'font-normal',
-                                'block truncate',
-                              ]">{{ cat.label }}</span>
-                              <span v-if="selected"
-                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                              </span>
-                            </li>
-                          </ListboxOption>
-                        </ListboxOptions>
-                      </transition>
-                    </div>
-                  </Listbox>
-                </div>
-
-
-                <button @click="search"
-                  class="mt-6 rounded-lg  bg-zaman hover:bg-zaman-700 focus:bg-zaman-800 w-full py-3 font-semibold text-white outline-none hover:opacity-80 focus:ring flex items-center justify-center space-x-2">
-                  <MagnifyingGlassIcon class="h-4 w-4 text-white rtl:ml-2 mr-2" aria-hidden="true" />
-                  <span>{{ $t('common.search') }}</span>
-                </button>
-        <!-- Price Range -->
-        <div class="space-y-2 col-span-full">
-          <label class="block text-sm font-medium text-gray-700">السعر</label>
-          <input
-            type="range"
-            min="0"
-            max="1000000"
-            step="10000"
-            v-model="price"
-            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
-          <div class="text-center">{{ price }} ريال</div>
+        <!-- Desctiption Type Selection -->
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700">صفة العقار</label>
+          <div class="relative">
+            <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+              <option>اختر صفة العقار</option>
+              <option v-for="desctiption in propertyDesctiptions" :key="desctiption" :value="type">{{ desctiption }}</option>
+            </select>
+            <ChevronDown class="absolute right-2 top-2 h-5 w-5 text-gray-400" />
+          </div>
         </div>
+        <!-- category Type Selection -->
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700">فئة العقار</label>
+          <div class="relative">
+            <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+              <option>اختر فئة العقار</option>
+              <option v-for="category in propertyCategories" :key="category" :value="category">{{ category }}</option>
+            </select>
+            <ChevronDown class="absolute right-2 top-2 h-5 w-5 text-gray-400" />
+          </div>
+        </div>
+        <!-- Property Type Selection -->
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700">نوع العقار</label>
+          <div class="relative">
+            <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+              <option>اختر نوع العقار</option>
+              <option v-for="type in propertyTypes" :key="type" :value="type">{{ type }}</option>
+            </select>
+            <ChevronDown class="absolute right-2 top-2 h-5 w-5 text-gray-400" />
+          </div>
+        </div>
+        
+        <!-- Price Range -->
+        <div class="space-y-2">
+  <label class="block text-sm font-medium text-gray-700">السعر</label>
+  <input
+    type="range"
+    min="0"
+    max="1000000"
+    step="10000"
+    v-model="price"
+    class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-slider"
+  />
+  <div class="text-center">{{ price }} ريال</div>
+</div>
+
       </div>
+
+
+      <div class="flex items-center space-x-2 my-4">
+  <h2 class="text-sm font-semibold leading-6 text-secondary ml-2">بحث متقدم</h2>
+  <div class="flex-grow border-t border-gray-300"></div>
+</div>
+
 
       <!-- Additional Filter Options -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
@@ -219,11 +215,11 @@
       <div class="mt-6 flex justify-center space-x-4">
         <button
           @click="scrollToResults"
-          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+          class="px-4 py-2 mx-4 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" style="background-color: #264642; color: white;"
         >
           بحث
         </button>
-        <button class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
+        <button class="px-4 py-2 mx-4 bg-gold-500 text-white rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
           بحث متقدم
         </button>
       </div>
@@ -250,6 +246,8 @@ export default {
     const cities = ref(['المدينة الأولى', 'المدينة الثانية', 'مكة', 'المدينة الرابعة']);
     const neighborhoods = ref([]);
     const areas = ref(['50 متر مربع', '100 متر مربع', '150 متر مربع', '200 متر مربع']);
+    const propertyDesctiptions = ref(['نوع 1', 'نوع 2', 'نوع 3']);
+    const propertyCategories = ref(['نوع 1', 'نوع 2', 'نوع 3']);
     const propertyTypes = ref(['نوع 1', 'نوع 2', 'نوع 3']);
     const rooms = ref([1, 2, 3, 4, 5]);
     const bathrooms = ref([1, 2, 3, 4]);
@@ -290,6 +288,8 @@ export default {
       cities,
       neighborhoods,
       areas,
+      propertyDesctiptions,
+      propertyCategories,
       propertyTypes,
       rooms,
       bathrooms,
@@ -324,4 +324,32 @@ export default {
 .shadow-md {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(255, 136, 0);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(255, 136, 0);
+  cursor: pointer;
+}
+
+input[type="range"]::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(255, 136, 0);
+  cursor: pointer;
+}
+
 </style>
