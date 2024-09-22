@@ -11,11 +11,11 @@ export const useCategories = () => {
     error.value = null;
 
     try {
-      const response = await $api.get("/real-states");
+      const response = await $api.get("/states");
       categories.value = response.data.data;
     } catch (err) {
       error.value =
-        err.response?.data?.data.message ||
+        err.response?.data?.data?.message ||
         "An error occurred while fetching categories.";
     } finally {
       loading.value = false;

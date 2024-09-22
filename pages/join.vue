@@ -8,8 +8,9 @@
 
 <template>
     <div class="px-3">
-        <JoinHero />
+        <!-- <JoinHero />
         <JoinFeatures />
-        <JoinFaqs />
+        <JoinFaqs /> -->
+        join test
     </div>
 </template>

@@ -64,7 +64,7 @@ const route = useRoute();
                 </div>
               </NuxtLink>
 
-              <NuxtLink :to="{ path: '/filter' }" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path.includes('/real-states') }"
+              <NuxtLink :to="{ path: '/real-states' }" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path.includes('/real-states') }"
                 class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500">
                 <div class="flex items-center gap-x-1">
                   {{ $t('realEstateOffers') }}

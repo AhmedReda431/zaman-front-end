@@ -20,12 +20,14 @@ export const useRealStates = () => {
   };
 
   // Fetch realStates from the server
-  const fetchRealStates = async (query = "") => {
+  const fetchRealStates = async (query = {}) => {
     resetStates();
     loading.value = true;
 
     try {
-      const response = await $api.get(`/home-real-states?${query}`);
+      const response = await $api.get(`/home-real-estates`, {
+        params: query
+      });
       realStates.value = response.data.data;
       total.value = response.data.meta.total;
       success.value = true;

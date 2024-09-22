@@ -1,6 +1,5 @@
 <script setup>
 import { useForm, useIsFormValid, useValidateForm } from 'vee-validate';
-import { ref, computed, onMounted, watch } from 'vue';
 import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
 const { t, locale } = useI18n();
