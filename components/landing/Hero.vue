@@ -4,7 +4,7 @@ import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption,Rad
 
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
 const { t, locale } = useI18n();
-const { fetchRegions, regions } = useRegions();
+const { fetchCities, cities } = useCities();
 const router = useRouter();
 const categories = ref([
   { value: 'sell', label: t('categories.sell') },
@@ -12,7 +12,7 @@ const categories = ref([
   { value: 'requests', label: t('categories.requests') },
 ]);
 const type = ref('');
-const region_id = ref('');
+const city_id = ref('');
 
 const typeLabel = computed(() => {
   if (type.value != '') {
@@ -21,23 +21,23 @@ const typeLabel = computed(() => {
   }
   return t('categories.choose');
 });
-const regionName = computed(() => {
-  if (region_id.value != '') {
-    const obj = regions.value.find(cat => cat.id == region_id.value);
-    return locale.value == "ar" ? obj.name_ar : obj.name;
+const cityName = computed(() => {
+  if (city_id.value) {
+    const obj = cities.value.find(cat => cat.id == city_id.value);
+    return unref(obj).name;
   }
-  return t('selectRegion');
+  return "اختر المدينه";
 });
-const search = () => {
+const searchButton = () => {
   router.push({
     path: '/real-states', query: {
-      region_id: region_id.value,
+      city_id: city_id.value,
       type: type.value,
     }
   });
 };
 onMounted(async () => {
-  await fetchRegions();
+  await fetchCities();
 });
 </script>
 
@@ -75,7 +75,7 @@ onMounted(async () => {
             <ClientOnly>
 
               <div class="mt-5 grid grid-cols-12 gap-3 bg-white rounded-lg p-3">
-                <Listbox v-model="type" class="col-span-4">
+                <Listbox v-model="type" class="col-span-5">
                   <div class="relative  w-full">
                     <ListboxButton
                       class="relative w-full cursor-default rounded-lg bg-white py-3 rtl:pr-3 pl-3 rtl:pl-10 pr-10 text-left rtl:text-right shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -109,11 +109,11 @@ onMounted(async () => {
                     </transition>
                   </div>
                 </Listbox>
-                <Listbox v-model="region_id" class="col-span-4">
+                <Listbox v-model="city_id" class="col-span-5">
                   <div class="relative w-full">
                     <ListboxButton
                       class="relative w-full cursor-default rounded-lg bg-white py-3 rtl:pr-3 pl-3 rtl:pl-10 pr-10 text-left rtl:text-right shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                      <span class="block truncate">{{ regionName }}</span>
+                      <span class="block truncate">{{ cityName }}</span>
                       <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center rtl:pl-2 pr-2">
                         <ChevronDownIcon class="h-7 w-7 text-gray-400" aria-hidden="true" />
                       </span>
@@ -123,8 +123,8 @@ onMounted(async () => {
                       leave-to-class="opacity-0">
                       <ListboxOptions
                         class="absolute mt-1 z-20 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                        <ListboxOption v-slot="{ active, selected }" v-for="region in regions" :key="region.name"
-                          :value="region.id" as="template">
+                        <ListboxOption v-slot="{ active, selected }" v-for="city in cities" :key="city.name"
+                          :value="city.id" as="template">
                           <li :class="[
                             active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
                             'relative cursor-default select-none py-2 pl-10 pr-4',
@@ -132,7 +132,7 @@ onMounted(async () => {
                             <span :class="[
                               selected ? 'font-medium' : 'font-normal',
                               'block truncate',
-                            ]">{{ locale == 'ar' ? region.name_ar : region.name }}</span>
+                            ]">{{ city.name }}</span>
                             <span v-if="selected"
                               class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                               <CheckIcon class="h-5 w-5" aria-hidden="true" />
@@ -143,14 +143,14 @@ onMounted(async () => {
                     </transition>
                   </div>
                 </Listbox>
-                <button @click="search"
+                <!-- <button @click="search"
                   class="mt-4 col-span-2 gap-x-2 flex flex-nowrap border-2 border-secondary items-center justify-center rounded-md bg-secondary px-2 min-w-max  text-sm font-semibold text-white shadow-sm hover:text-secondary hover:bg-white sm:mt-0">
                   <Icon name="tdesign:map-search-1" size="22" />
                   <span>
                     {{ $t('searchByMap') }}
                   </span>
-                </button>
-                <button @click="search"
+                </button> -->
+                <button @click="searchButton"
                   class="mt-4 col-span-2 gap-x-2 flex flex-nowrap border-2 border-zaman items-center justify-center rounded-md bg-zaman px-2 min-w-max  text-sm font-semibold text-white shadow-sm hover:bg-zaman-500 sm:mt-0">
                   <Icon name="iconamoon:search-light" size="22" />
                   <span>

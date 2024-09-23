@@ -22,8 +22,8 @@ export const useLogin = () => {
       if(response?.data?.data?.user){
         authStore.setToken(response?.data?.data?.token);
         authStore.setUser(response?.data?.data?.user);
+        router.push(authStore.redirectRoute || "/");
       }
-      router.push(authStore.redirectRoute || "/");
     } catch (err) {
       error.value = err.response?.data.errors || t("errors.defaultLoginError");
     } finally {

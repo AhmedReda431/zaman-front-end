@@ -60,7 +60,7 @@ export const useRealStates = () => {
     loading.value = true;
 
     try {
-      const response = await $api.get(`/real-states/${id}`);
+      const response = await $api.get(`/home-real-estates/${id}`);
       realState.value = response.data.data;
       success.value = true;
     } catch (err) {
@@ -90,19 +90,9 @@ export const useRealStates = () => {
   const newRealState = async (data) => {
     resetStates();
     loading.value = true;
-    let obj = {}
-    if (data){
-      obj = {
-        address: data.address,
-        lng: String(data.map.lng),
-        lat: String(data.map.lat),
-        city: data.city,
-        region_id: data.region_id
-      };
-    }
+
     try {
-      const response = await $api.post("/real-states", obj);
-      realStateStore.setRealState(response.data.data);
+      const response = await $api.post("/real-estates", data);
       realState.value = response.data.data
       success.value = true;
     } catch (err) {

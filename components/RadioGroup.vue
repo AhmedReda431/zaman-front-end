@@ -6,19 +6,19 @@ import { CheckCircleIcon } from '@heroicons/vue/20/solid';
 const { t } = useI18n()
 const roles = [
   {
-    key: 'guest',
+    key: 1,
     label: 'باحث',
   },
   {
-    key: 'host',
+    key: 2,
     label: "مالك",
   },
   {
-    key: 'test',
+    key: 3,
     label: "وسيط",
   },
   {
-    key: 'test2',
+    key: 4,
     label: "مطور",
   },
 ];

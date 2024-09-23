@@ -11,34 +11,22 @@ export const useRegister = () => {
   const error = ref(null);
   const token = useCookie("token"); // Access the cookie
 
-  const register = async (name, email, role, phone, password, avatar) => {
+  const register = async (data) => {
     loading.value = true;
     error.value = null;
 
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("role", role);
-      formData.append("phone", phone);
-      formData.append("password", password);
-      if (avatar) {
-        formData.append("avatar", avatar);
-      }
-
-      const response = await $api.post("/register", formData, {
+      const response = await $api.post("/auth/register", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      const authStore = useAuthStore();
-      token.value = response.data.token;
-      if(response?.data?.user){
-        authStore.setToken(response?.data?.token);
-        authStore.setUser(response?.data?.user);
+      if(response?.data?.code ){
+        // authStore.setToken(response?.data?.token);
+        // authStore.setUser(response?.data?.user);
+        router.push(`/verify-code?${data.email}`);
       }
-      router.push(authStore.redirectRoute || "/");
     } catch (err) {
       error.value = err.response?.data.errors
       loading.value = false;

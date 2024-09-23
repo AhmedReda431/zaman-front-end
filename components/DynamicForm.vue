@@ -36,8 +36,8 @@ const { serverError } = defineProps({
 <template>
   <Form :initial-values="formValues" v-slot="{ errors }">
     <div v-if="register">
-      <RadioGroup name="role" class="w-full" :rules="validateRole" />
-      <ErrorMessage class="text-[#dc4c64]" name="role" />
+      <RadioGroup name="account_type" class="w-full" :rules="validateRole" />
+      <ErrorMessage class="text-[#dc4c64]" name="account_type" />
 
     </div>
     <div v-for="{ as, name, label, placeholder, children, ...attrs } in schema.fields" :key="name" class="mb-4">

@@ -10,7 +10,7 @@ definePageMeta({
 
 const { t } = useI18n()
 const { showAlert } = useAlert()
-const { register, loading, error } = useRegister();
+const { register, loading, error, success } = useRegister();
 
 const formSchema = ref({
     fields: [
@@ -46,7 +46,9 @@ const formSchema = ref({
     ],
 });
 const handleRegister = async (data) => {
-    await register(data.name, data.email, data.role, data.phone, data.password, data.avatar);
+    console.log(data)
+    await register(data);
+
 };
 </script>
 

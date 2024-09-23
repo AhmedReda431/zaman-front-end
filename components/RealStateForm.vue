@@ -16,11 +16,6 @@ defineProps({
     }
 })
 
-const selectedLocation = ref(null);
-const location = (data) => {
-    selectedLocation.value = data;
-};
-
 const formData = ref({
     price: null,
     email: null,
@@ -46,11 +41,64 @@ const formData = ref({
 })
 
 
+const selectedFiles = ref([]);
+const uploadedImages = ref([]);
+const handleFileUpload = (event) => {
+    // Append newly selected files to the existing selectedFiles array
+    selectedFiles.value = [...selectedFiles.value, ...Array.from(event.target.files)];
+    uploadImages();
+};
+
+const deleteImage = (index) => {
+    uploadedImages.value.splice(index, 1);
+    selectedFiles.value.splice(index, 1);
+    formData.value.images.splice(index, 1);
+};
+
+const uploadImages = () => {
+    formData.value.images = selectedFiles.value;
+    uploadedImages.value = selectedFiles.value.map((file) => ({
+        url: URL.createObjectURL(file),
+    }));
+};
+
+
+// plans
+
+
+const selectedFilesPlans = ref([]);
+const uploadedImagesPlans = ref([]);
+const handleFileUploadPlans = (event) => {
+    // Append newly selected files to the existing selectedFilesPlans array
+    selectedFilesPlans.value = [...selectedFilesPlans.value, ...Array.from(event.target.files)];
+    uploadImagesPlans();
+};
+
+const deleteImagePlans = (index) => {
+    uploadedImagesPlans.value.splice(index, 1);
+    selectedFilesPlans.value.splice(index, 1);
+    formData.value.images.splice(index, 1);
+};
+
+const uploadImagesPlans = () => {
+    formData.value.plans = selectedFilesPlans.value;
+    uploadedImagesPlans.value = selectedFilesPlans.value.map((file) => ({
+        url: URL.createObjectURL(file),
+    }));
+};
+
+const selectedLocation = ref(null);
+const location = (data) => {
+    selectedLocation.value = data;
+};
+
+
+
 const submit = async () => {
     await validateForm();
     if (isValid.value) {
         emit('submit', formData.value);
-    } 
+    }
 };
 
 const cityName = computed(() => {
@@ -77,7 +125,6 @@ onMounted(async () => {
 
 
 
-
 </script>
 
 <template>
@@ -96,7 +143,7 @@ onMounted(async () => {
                             <select v-model="formData.city_id"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option :value="null" selected disabled>اختر</option>
-                                <option v-for="city in cities" :value="city.id" >{{ city.name }}</option>
+                                <option v-for="city in cities" :value="city.id">{{ city.name }}</option>
                             </select>
                         </div>
                         <div>
@@ -104,7 +151,7 @@ onMounted(async () => {
                             <select v-model="formData.category_id"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option :value="null" selected disabled>اختر</option>
-                                <option v-for="cat in categories" :value="cat.id" >{{ cat.name }}</option>
+                                <option v-for="cat in categories" :value="cat.id">{{ cat.name }}</option>
                             </select>
                         </div>
                         <div>
@@ -121,28 +168,28 @@ onMounted(async () => {
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 m-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">رقم التواصل</label>
-                            <input v-model="contactNumber" type="number"
+                            <input v-model="formData.contactNumber" type="number"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">رقم الواتساب</label>
-                            <input v-model="whatsappNumber" type="number"
+                            <input v-model="formData.whatsappNumber" type="number"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">البريد الإلكتروني</label>
-                            <input v-model="email" type="email"
+                            <input v-model="formData.email" type="email"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div class="md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700">اسم المسوق</label>
-                            <input v-model="marketerName" type="text"
+                            <input v-model="formData.marketerName" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">رقم ترخيص الهيئة العامة
                                 للعقار</label>
-                            <input v-model="licenseNumber" type="text"
+                            <input v-model="formData.licenseNumber" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
@@ -154,7 +201,7 @@ onMounted(async () => {
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 m-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد غرف النوم</label>
-                            <select v-model="bedrooms"
+                            <select v-model="formData.bedrooms"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -165,7 +212,7 @@ onMounted(async () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد دورات المياه</label>
-                            <select v-model="bathrooms"
+                            <select v-model="formData.bathrooms"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -176,7 +223,7 @@ onMounted(async () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد الصاله</label>
-                            <select v-model="livingRooms"
+                            <select v-model="formData.livingRooms"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -187,7 +234,7 @@ onMounted(async () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد غرف المجلس</label>
-                            <select v-model="majlisRooms"
+                            <select v-model="formData.majlisRooms"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -198,7 +245,7 @@ onMounted(async () => {
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">مساحة الارض</label>
-                            <input v-model="landArea" type="text"
+                            <input v-model="formData.land_area" type="number"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
@@ -210,12 +257,12 @@ onMounted(async () => {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 m-4">
                         <div class="md:col-span-3">
                             <label class="block text-sm font-medium text-gray-700">اسم الشارع</label>
-                            <input v-model="streetName" type="text"
+                            <input v-model="formData.streetName" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد الشوارع</label>
-                            <select v-model="streetCount"
+                            <select v-model="formData.streetCount"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -226,12 +273,12 @@ onMounted(async () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عرض الشارع</label>
-                            <input v-model="streetWidth" type="text"
+                            <input v-model="formData.streetWidth" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">واجهة الشارع</label>
-                            <input v-model="streetFacade" type="text"
+                            <input v-model="formData.streetFacade" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
@@ -245,11 +292,11 @@ onMounted(async () => {
                             <label class="block text-sm font-medium text-gray-700">مياه</label>
                             <div class="mt-1 flex items-center space-x-4">
                                 <label class="inline-flex items-center">
-                                    <input v-model="water" type="radio" value="yes" class="form-radio">
+                                    <input v-model="formData.water" type="radio" value="yes" class="form-radio">
                                     <span class="mr-2 ml-8">نعم</span>
                                 </label>
                                 <label class="inline-flex items-center">
-                                    <input v-model="water" type="radio" value="no" class="form-radio">
+                                    <input v-model="formData.water" type="radio" value="no" class="form-radio">
                                     <span class="mr-2">لا</span>
                                 </label>
                             </div>
@@ -258,50 +305,50 @@ onMounted(async () => {
                             <label class="block text-sm font-medium text-gray-700">كهرباء</label>
                             <div class="mt-1 flex items-center space-x-4">
                                 <label class="inline-flex items-center">
-                                    <input v-model="electricity" type="radio" value="yes" class="form-radio">
+                                    <input v-model="formData.electricity" type="radio" value="yes" class="form-radio">
                                     <span class="mr-2 ml-8">نعم</span>
                                 </label>
                                 <label class="inline-flex items-center">
-                                    <input v-model="electricity" type="radio" value="no" class="form-radio">
+                                    <input v-model="formData.electricity" type="radio" value="no" class="form-radio">
                                     <span class="mr-2">لا</span>
                                 </label>
                             </div>
                         </div>
                         <div class="md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700">الطول</label>
-                            <input v-model="length" type="text"
+                            <input v-model="formData.length" type="number"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div class="md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700">العمق</label>
-                            <input v-model="depth" type="text"
+                            <input v-model="formData.depth" type="number"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
                 </div>
 
                 <!-- Features and Amenities -->
-                <div class="mt-8">
+                <!-- <div class="mt-8">
                     <h2 class="text-sm font-semibold leading-6 text-secondary">المميزات والمرافق</h2>
                     <div class="m-4">
                         <label class="block text-sm font-medium text-gray-700">المميزات والمرافق</label>
-                        <input v-model="amenities" type="text"
+                        <input v-model="formData.formData.amenities" type="text"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Property Description -->
                 <div class="mt-8">
                     <h2 class="text-sm font-semibold leading-6 text-secondary">الوصف</h2>
                     <div class="m-4">
                         <label class="block text-sm font-medium text-gray-700">وصف العقار</label>
-                        <textarea v-model="description"
+                        <textarea v-model="formData.description"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
                     </div>
                 </div>
 
                 <!-- Images Section -->
-                <section class="mt-8">
+                <!-- <section class="mt-8">
                     <h2 class="text-sm font-semibold leading-6 text-secondary">الصور</h2>
                     <div class="grid grid-cols-5 gap-4 mb-2 m-4">
                         <div v-for="n in 5" :key="n"
@@ -310,13 +357,46 @@ onMounted(async () => {
                         </div>
                     </div>
                     <p class="text-sm text-right text-orange-600 cursor-pointer">اضافة صور أخرى</p>
-                </section>
+                </section> -->
+
+                <!-- Multiple Image Upload Section -->
+                <h2 class="text-sm font-semibold leading-6 text-secondary">الصور</h2>
+                <div class="flex items-center justify-center w-full">
+                    <!-- Button to trigger multiple image upload -->
+
+                    <label for="multiple-image-upload"
+                        class="flex justify-center items-center bg-gray-50 rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 border-2 border-gray-300 border-dashed">
+                        <div class="flex flex-row items-center gap-5 justify-center px-2">
+                            <svg class="w-8 h-8 mb-2 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <p class="text-sm text-gray-700">
+                                <span class="font-semibold">{{ $t('addImages.addAdditionalImages') }}</span>
+                            </p>
+                        </div>
+                        <input id="multiple-image-upload" @change="handleFileUpload" type="file" multiple
+                            class="hidden" />
+                    </label>
+                </div>
+
+                <div v-if="uploadedImages.length" class="grid gap-4 grid-cols-6">
+                    <div v-for="(image, index) in uploadedImages" :key="index" class="relative">
+                        <img :src="image.url" alt="Uploaded Image" class="border-2 rounded m-2 w-64 object-cover  aspect-[4/3]" />
+                        <button @click="deleteImage(index)"
+                            class="absolute top-0 right-0 m-3 text-red-500 hover:text-red-700">
+                            <Icon name="material-symbols:delete-forever-outline" />
+                        </button>
+                    </div>
+                </div>
 
                 <!-- Video Section -->
-                <section class="mt-8">
+                <!-- <section class="mt-8">
                     <h2 class="text-sm font-semibold leading-6 text-secondary">الفيديو</h2>
                     <div class="bg-gray-100 h-24 flex items-center justify-between px-4 rounded-lg m-4">
-                        <span></span> <!-- Empty span to take space -->
+                        <span></span> 
                         <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center">
                             <span>ارفاق فيديو</span>
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -327,7 +407,7 @@ onMounted(async () => {
                             </svg>
                         </button>
                     </div>
-                </section>
+                </section> -->
 
                 <!-- Location Section -->
                 <!-- <section class="mt-8">
@@ -346,11 +426,46 @@ onMounted(async () => {
                 </section> -->
 
 
+                 <!-- plans Image Upload Section -->
+                 <h2 class="text-sm font-semibold leading-6 text-secondary">المخطط</h2>
+                <div class="flex items-center justify-center w-full">
+                    <!-- Button to trigger plans image upload -->
+
+                    <label for="multiple-image-plans-upload"
+                        class="flex justify-center items-center bg-gray-50 rounded-lg py-2 px-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 border-2 border-gray-300 border-dashed">
+                        <div class="flex flex-row items-center gap-5 justify-center px-2">
+                            <svg class="w-8 h-8 mb-2 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <p class="text-sm text-gray-700">
+                                <span class="font-semibold">اضافة المخطط</span>
+                            </p>
+                        </div>
+                        <input id="multiple-image-plans-upload" @change="handleFileUploadPlans" type="file" multiple
+                            class="hidden" />
+                    </label>
+                </div>
+
+                <div v-if="uploadedImagesPlans.length" class="grid gap-4 grid-cols-6">
+                    <div v-for="(image, index) in uploadedImagesPlans" :key="index" class="relative">
+                        <img :src="image.url" alt="Uploaded Image" class="border-2 rounded m-2 w-64 object-cover  aspect-[4/3]" />
+                        <button @click="deleteImagePlans(index)"
+                            class="absolute top-0 right-0 m-3 text-red-500 hover:text-red-700">
+                            <Icon name="material-symbols:delete-forever-outline" />
+                        </button>
+                    </div>
+                </div>
+
+
+
                 <!-- Plan Section -->
-                <section class="mt-8">
+                <!-- <section class="mt-8">
                     <h2 class="text-sm font-semibold leading-6 text-secondary">المخطط</h2>
                     <div class="bg-gray-100 h-24 flex items-center justify-between px-4 rounded-lg m-4">
-                        <span></span> <!-- Empty span to take space -->
+                        <span></span>
                         <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center">
                             <span>اضافة المخطط</span>
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -360,9 +475,10 @@ onMounted(async () => {
                             </svg>
                         </button>
                     </div>
-                </section>
+                </section> -->
             </div>
         </div>
-        <button  class=" my-5 w-full bg-zaman text-white px-3 py-2.5 rounded-md flex items-center justify-center" @click="submit">انشاء</button>
+        <button class=" my-5 w-full bg-zaman text-white px-3 py-2.5 rounded-md flex items-center justify-center"
+            @click="submit">انشاء</button>
     </div>
 </template>

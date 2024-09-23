@@ -2,10 +2,13 @@
 
 definePageMeta({
     title: 'New-realState',
-    // middleware: 'auth'
+    middleware: 'auth'
 }) 
-function createNewRealState(data){
+const { newRealState, success, loading, error, errors } = useRealStates()
+
+async function createNewRealState(data){
     console.log('data',data )
+    await newRealState(data)
 }
 </script>
 <template>
