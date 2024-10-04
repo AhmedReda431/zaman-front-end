@@ -1,7 +1,7 @@
 <script setup>
 definePageMeta({
     title: "Success",
-    description: "Your space has been created successfully",
+    description: "Your real-state has been created successfully",
     layout: "auth",
     middleware: "auth"
 })

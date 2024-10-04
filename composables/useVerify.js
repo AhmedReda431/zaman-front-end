@@ -25,16 +25,19 @@ export const useVerify = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
+      console.log('response', response)
       const authStore = useAuthStore();
-      token.value = response.data.token;
-      if(response?.data?.user){
-        authStore.setToken(response?.data?.token);
-        authStore.setUser(response?.data?.user);
+      if(response?.data?.data?.user){
+        token.value = response?.data?.data?.token;
+        authStore.setToken(response?.data?.data?.token);
+        authStore.setUser(response?.data?.data?.user);
+        router.push(authStore.redirectRoute || "/");
+      }else if (response?.data?.message) {
+        showAlert( typeof response?.data?.message == 'object' ? Object.values(response?.data?.message)[0] :response?.data?.message , 'warning',)
       }
-      router.push(authStore.redirectRoute || "/");
     } catch (err) {
       error.value = err.response?.data.errors
+      showAlert('something going wrong, please try again', 'danger')
       loading.value = false;
     } finally {
       loading.value = false;

@@ -1,7 +1,6 @@
 // composables/useRegister.js
 import { ref } from "vue";
 import { useAuthStore } from "~/stores/auth"; // Make sure to import the auth store
-
 export const useRegister = () => {
   const { $api } = useNuxtApp();
   const { showAlert } = useAlert();
@@ -21,13 +20,24 @@ export const useRegister = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(response?.data?.message)
 
-      if(response?.data?.code ){
+      if (response?.data?.data?.code) {
         // authStore.setToken(response?.data?.token);
         // authStore.setUser(response?.data?.user);
-        router.push(`/verify-code?${data.email}`);
+        router.push({
+          path: 'verify-code',
+          query: {
+            email: data.email
+          }
+        });
+      }
+      else if (response?.data?.message) {
+        showAlert(typeof response?.data?.message == 'object' ? Object.values(response?.data?.message)[0] :response?.data?.message, 'warning',)
       }
     } catch (err) {
+      console.log(err)
+      showAlert('something going wrong, please try again', 'danger')
       error.value = err.response?.data.errors
       loading.value = false;
     } finally {

@@ -33,7 +33,6 @@ const formSchema = ref({
             name: 'phone',
             as: 'input',
             placeholder: '05-XXXX-XXXX', // 05-XXXXXXX
-            rules: Yup.string().matches(/^(05[0-9]{8})$/, t('validation.phone.notValid')).required(t('validation.phone.required')),
         },
         {
             label: t('common.password'),

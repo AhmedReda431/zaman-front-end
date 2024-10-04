@@ -2,6 +2,7 @@ import { ref } from "vue";
 
 export const useCities = () => {
   const { $api } = useNuxtApp();
+  const { showAlert } = useAlert();
   const cities = ref([]);
   const loading = ref(false);
   const error = ref(null);
@@ -15,8 +16,9 @@ export const useCities = () => {
       cities.value = response.data.data;
     } catch (err) {
       error.value =
-        err.response?.data?.data.message ||
+        err.response?.data?.data?.message ||
         "An error occurred while fetching cities.";
+        showAlert(error.value, 'danger')
     } finally {
       loading.value = false;
     }

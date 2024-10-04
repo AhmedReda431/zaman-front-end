@@ -3,6 +3,7 @@ import { ref } from "vue";
 export const useRealStates = () => {
   const { $api } = useNuxtApp();
   const realStateStore = useRealStateStore();
+  const {showAlert} = useAlert()
   const realStates = ref([]);
   const total = ref(0);
   const realState = ref({});
@@ -49,6 +50,7 @@ export const useRealStates = () => {
       success.value = true;
     } catch (err) {
       error.value = err.response?.data?.message || "realStates fetch error";
+      showAlert(error.value, 'danger')
     } finally {
       loading.value = false;
     }
@@ -65,22 +67,26 @@ export const useRealStates = () => {
       success.value = true;
     } catch (err) {
       error.value = err.response?.data?.message || "realState fetch error";
+      showAlert(error.value, 'danger')
+
     } finally {
       loading.value = false;
     }
   };
 
   // Fetch realState from the server
-  const fetchRealStateById = async (token) => {
+  const fetchRealStateById = async (id) => {
     resetStates();
     loading.value = true;
 
     try {
-      const response = await $api.get(`/real-states/${token}`);
+      const response = await $api.get(`/real-states/${id}`);
       realState.value = response.data.data;
       success.value = true;
     } catch (err) {
-      error.value = err.response?.data?.message || "realState fetch by token error";
+      error.value = err.response?.data?.message || "realState fetch by id error";
+      showAlert(error.value, 'danger')
+
     } finally {
       loading.value = false;
     }
@@ -97,7 +103,9 @@ export const useRealStates = () => {
       success.value = true;
     } catch (err) {
       errors.value = err.response?.data?.errors
-      error.value = err.response?.data?.message || "realStates create error";
+      error.value = err.response?.data?.message || 'فشل انشاء العقار, يرجى اعادة المحاوله';
+      showAlert(error.value, 'danger')
+
     } finally {
       loading.value = false;
     }
@@ -118,6 +126,8 @@ export const useRealStates = () => {
     } catch (err) {
       errors.value = err.response?.data?.errors
       error.value = err.response?.data?.message || "realStates update error";
+      showAlert(error.value, 'danger')
+
     } finally {
       loading.value = false;
     }
@@ -165,6 +175,8 @@ export const useRealStates = () => {
       success.value = true;
     } catch (err) {
       error.value = err.response?.data?.message;
+      showAlert(error.value, 'danger')
+
     } finally {
       loading.value = false;
     }

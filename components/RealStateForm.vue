@@ -13,31 +13,34 @@ const { fetchCategories, categories } = useCategories();
 defineProps({
     serverErrors: {
         required: false
+    },
+    loading: {
+        default: false
     }
 })
 
 const formData = ref({
-    price: null,
-    email: null,
-    city_id: null,
-    category_id: null,
+    // price: '',
+    // email: '',
+    // city_id: '',
+    // category_id: '',
     images: [],
-    videos: [],
+    // // videos: [],
     plans: [],
-    description: '',
-    whatsup: '',
-    license_number: null,
-    real_estate_characteristics: null,
-    depth: null,
-    water: null,
-    electricity: null,
-    street_facing: null,
-    street_area: null,
-    number_of_streets: null,
-    street: null,
-    land_area: null,
-    number_of_council_rooms: null,
-    hall_number: null,
+    // description: '',
+    // // whatsup: '',
+    // // license_number: '',
+    // // real_estate_characteristics: '',
+    // depth: '',
+    // water: 0,
+    // electricity: 0,
+    // // street_facing: '',
+    // // street_area: '',
+    // // number_of_streets: '',
+    // // street: '',
+    // land_area: '',
+    // // number_of_council_rooms: '',
+    // // hall_number: '',
 })
 
 
@@ -97,26 +100,26 @@ const location = (data) => {
 const submit = async () => {
     await validateForm();
     if (isValid.value) {
-        emit('submit', formData.value);
+        let formDataSend = new FormData()
+        Object.entries(formData.value).forEach(([key, val]) => {
+            if (typeof val == 'number' && (key != 'electricity' || key != 'water')) {
+                formData.value[key] = String(val)
+            }
+            if (key != 'images' || key != 'plans') {
+                formDataSend.append(key, val)
+            }
+            if (key == 'images' || key == 'plans') {
+                for (let i = 0; i < val.length; i++) {
+                    formDataSend.append(`${key}[${i}]`, val[i]);
+                }
+            }
+        })
+        console.log('formDataSend', formDataSend)
+        emit('submit', formDataSend);
     }
 };
 
-const cityName = computed(() => {
-    if (formData.value.city_id) {
-        const obj = cities.value.find(cat => cat.id == formData.value.city_id);
-        // return locale.value == "ar" ? unref(obj).name_ar : unref(obj).name;
-        return unref(obj).name;
-    }
-    return "اختر المدينه";
-});
-const categoryName = computed(() => {
-    if (formData.value.category_id) {
-        const obj = categories.value.find(cat => cat.id == formData.value.category_id);
-        // return locale.value == "ar" ? unref(obj).name_ar : unref(obj).name;
-        return unref(obj).name;
-    }
-    return "اختر نوع العقار";
-});
+
 onMounted(async () => {
     await fetchCities();
     await fetchCategories();
@@ -168,12 +171,12 @@ onMounted(async () => {
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 m-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">رقم التواصل</label>
-                            <input v-model="formData.contactNumber" type="number"
+                            <input v-model="formData.phone" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">رقم الواتساب</label>
-                            <input v-model="formData.whatsappNumber" type="number"
+                            <input v-model="formData.whatsup" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div>
@@ -212,7 +215,7 @@ onMounted(async () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد دورات المياه</label>
-                            <select v-model="formData.bathrooms"
+                            <select v-model="formData.bathrooms_of_rooms"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -223,7 +226,7 @@ onMounted(async () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد الصاله</label>
-                            <select v-model="formData.livingRooms"
+                            <select v-model="formData.hall_number"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -234,7 +237,7 @@ onMounted(async () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">عدد غرف المجلس</label>
-                            <select v-model="formData.majlisRooms"
+                            <select v-model="formData.number_of_council_rooms"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -255,14 +258,14 @@ onMounted(async () => {
                 <div class="mt-8">
                     <h2 class="text-sm font-semibold leading-6 text-secondary">معلومات الموقع والشارع</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 m-4">
-                        <div class="md:col-span-3">
+                        <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">اسم الشارع</label>
-                            <input v-model="formData.streetName" type="text"
+                            <input v-model="formData.street" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">عدد الشوارع</label>
-                            <select v-model="formData.streetCount"
+                            <select v-model="formData.number_of_streets"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="" disabled>اختر</option>
                                 <option value="1">1</option>
@@ -271,14 +274,14 @@ onMounted(async () => {
                                 <option value="4">4</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">عرض الشارع</label>
-                            <input v-model="formData.streetWidth" type="text"
+                            <input v-model="formData.street_area" type="number"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">واجهة الشارع</label>
-                            <input v-model="formData.streetFacade" type="text"
+                            <input v-model="formData.street_facing" type="text"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
@@ -292,11 +295,11 @@ onMounted(async () => {
                             <label class="block text-sm font-medium text-gray-700">مياه</label>
                             <div class="mt-1 flex items-center space-x-4">
                                 <label class="inline-flex items-center">
-                                    <input v-model="formData.water" type="radio" value="yes" class="form-radio">
+                                    <input v-model="formData.water" type="radio" :value="1" class="form-radio">
                                     <span class="mr-2 ml-8">نعم</span>
                                 </label>
                                 <label class="inline-flex items-center">
-                                    <input v-model="formData.water" type="radio" value="no" class="form-radio">
+                                    <input v-model="formData.water" type="radio" :value="0" class="form-radio">
                                     <span class="mr-2">لا</span>
                                 </label>
                             </div>
@@ -305,11 +308,11 @@ onMounted(async () => {
                             <label class="block text-sm font-medium text-gray-700">كهرباء</label>
                             <div class="mt-1 flex items-center space-x-4">
                                 <label class="inline-flex items-center">
-                                    <input v-model="formData.electricity" type="radio" value="yes" class="form-radio">
+                                    <input v-model="formData.electricity" type="radio" :value="1" class="form-radio">
                                     <span class="mr-2 ml-8">نعم</span>
                                 </label>
                                 <label class="inline-flex items-center">
-                                    <input v-model="formData.electricity" type="radio" value="no" class="form-radio">
+                                    <input v-model="formData.electricity" type="radio" :value="0" class="form-radio">
                                     <span class="mr-2">لا</span>
                                 </label>
                             </div>
@@ -384,7 +387,8 @@ onMounted(async () => {
 
                 <div v-if="uploadedImages.length" class="grid gap-4 grid-cols-6">
                     <div v-for="(image, index) in uploadedImages" :key="index" class="relative">
-                        <img :src="image.url" alt="Uploaded Image" class="border-2 rounded m-2 w-64 object-cover  aspect-[4/3]" />
+                        <img :src="image.url" alt="Uploaded Image"
+                            class="border-2 rounded m-2 w-64 object-cover  aspect-[4/3]" />
                         <button @click="deleteImage(index)"
                             class="absolute top-0 right-0 m-3 text-red-500 hover:text-red-700">
                             <Icon name="material-symbols:delete-forever-outline" />
@@ -426,8 +430,8 @@ onMounted(async () => {
                 </section> -->
 
 
-                 <!-- plans Image Upload Section -->
-                 <h2 class="text-sm font-semibold leading-6 text-secondary">المخطط</h2>
+                <!-- plans Image Upload Section -->
+                <h2 class="text-sm font-semibold leading-6 text-secondary">المخطط</h2>
                 <div class="flex items-center justify-center w-full">
                     <!-- Button to trigger plans image upload -->
 
@@ -451,7 +455,8 @@ onMounted(async () => {
 
                 <div v-if="uploadedImagesPlans.length" class="grid gap-4 grid-cols-6">
                     <div v-for="(image, index) in uploadedImagesPlans" :key="index" class="relative">
-                        <img :src="image.url" alt="Uploaded Image" class="border-2 rounded m-2 w-64 object-cover  aspect-[4/3]" />
+                        <img :src="image.url" alt="Uploaded Image"
+                            class="border-2 rounded m-2 w-64 object-cover  aspect-[4/3]" />
                         <button @click="deleteImagePlans(index)"
                             class="absolute top-0 right-0 m-3 text-red-500 hover:text-red-700">
                             <Icon name="material-symbols:delete-forever-outline" />
@@ -478,7 +483,16 @@ onMounted(async () => {
                 </section> -->
             </div>
         </div>
-        <button class=" my-5 w-full bg-zaman text-white px-3 py-2.5 rounded-md flex items-center justify-center"
-            @click="submit">انشاء</button>
+        <button :class="{ 'cursor-not-allowed': loading, 'opacity-50': loading }" :disabled="loading"
+            class=" my-5 w-full bg-zaman text-white px-3 py-2.5 rounded-md flex items-center justify-center"
+            @click="submit">
+            <span v-if="!loading">
+                انشاء
+            </span>
+            <span v-if="loading">
+                {{ $t('loading') }}
+                <IconsLoadingWhite />
+            </span>
+        </button>
     </div>
 </template>

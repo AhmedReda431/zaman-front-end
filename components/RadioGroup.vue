@@ -40,8 +40,8 @@ const props = defineProps({
 const { name } = toRefs(props);
 const { checked, handleChange, value } = useField(name, undefined, {
   type: 'radio',
-  checkedValue: 'guest',
-  initialValue: 'guest',
+  checkedValue: 1,
+  initialValue: 1,
   label: 'Role',
   syncVModel: true,
 });

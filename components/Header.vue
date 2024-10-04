@@ -71,14 +71,14 @@ const route = useRoute();
                 </div>
               </NuxtLink>
 
-              <NuxtLink class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500" :class="{ 'border-b-2 border-b-zaman text-zaman-900': route.path.includes('/about-us') }">
+              <NuxtLink :to="{ path: '/about-us' }"  class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500" :class="{ 'border-b-2 border-b-zaman text-zaman-900' : route.path.includes('/about-us') }">
                 <div class="flex items-center gap-x-1">
                   {{ $t('aboutUs') }}
                 </div>
               </NuxtLink>
 
               <NuxtLink :to="{ path: '/contact-us' }"
-                class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500">
+              class="text-sm font-semibold leading-6 text-gray-600 hover:text-gray-500" :class="{ 'border-b-2 border-b-zaman text-zaman-900' : route.path.includes('/contact-us') }">
                 <div class="flex items-center gap-x-1">
                   {{ $t('contact-us') }}
                 </div>
