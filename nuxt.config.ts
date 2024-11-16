@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     // layoutTransition: { name: "page", mode: "out-in" },
   },
   build: {
-    transpile: ["@vuepic/vue-datepicker", '@fawmi/vue-google-maps'],
+    transpile: ["@vuepic/vue-datepicker", "@fawmi/vue-google-maps"],
   },
   runtimeConfig: {
     public: {
@@ -23,8 +23,8 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@nuxtjs/i18n",
     "@vueuse/nuxt",
-    'nuxt-swiper',
-    '@nuxtjs/google-fonts'
+    "nuxt-swiper",
+    "@nuxtjs/google-fonts",
   ],
   googleFonts: {
     families: {
@@ -64,7 +64,16 @@ export default defineNuxtConfig({
     ],
     defaultLocale: "ar",
   },
-  css: ["~/assets/css/main.css"],
+  css: ["~/assets/css/main.css", "@/assets/scss/main.scss"],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "@/assets/scss/variables.scss"; @import "@/assets/scss/mixins.scss"; @import "@/assets/scss/classes.scss";`,
+        },
+      },
+    },
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
